@@ -4,17 +4,17 @@ var existeCartaoVirado = false;
 var primeiroCartao, segundoCartao;
 
 var placar = 0;
-var tempo = 15;
+var tempo = 0;
 
 var intervalo = setInterval(function () {
-  if (tempo == 0) {
+  if (tempo == 15) {
     clearInterval(intervalo);
     cartoes.forEach(function (cartao) {
       cartao.addEventListener("click", virarCartao);
     });
     return;
   }
-  tempo = tempo - 1;
+  tempo = tempo + 1;
   document.getElementById("tempo").innerHTML = tempo;
 }, 1000);
 
