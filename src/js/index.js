@@ -19,14 +19,27 @@ var placar = 0;
 var tempo = 0;
 
 var intervalo = setInterval(function () {
-  if (tempo == 15) {
+  if (tempo == 60 || placar == 6) {
     clearInterval(intervalo);
-    alert("Tempo esgotado!");
-    var nome = prompt("Digite o seu nome:");
+    if (placar == 6) {
+      alert(
+        "Parabéns! Você ganhou! O seu tempo foi de " + tempo + " segundos."
+      );
+    } else {
+      alert("Tempo esgotado!");
+    }
+    var nome = "";
+    while (nome.length < 5) {
+      nome = prompt("Digite o seu nome:");
+      if (nome.length < 5) {
+        alert("O nome precisa ter mais de 5 caracteres");
+      }
+    }
     //Criar um objeto
     var resultado = {
       nomeJogador: nome,
       pontuacao: placar,
+      tempo: tempo,
     };
 
     resultadosExistentes.push(resultado);
@@ -36,14 +49,19 @@ var intervalo = setInterval(function () {
 
     var tabela = document.getElementById("resultados");
 
-    resultadosExistentes.sort().forEach(function (resultado) {
+    ordenarDados();
+
+    resultadosExistentes.forEach(function (resultado) {
       var tr = document.createElement("tr");
       var tdNome = document.createElement("td");
       tdNome.innerHTML = resultado.nomeJogador;
       var tdPontuacao = document.createElement("td");
       tdPontuacao.innerHTML = resultado.pontuacao;
+      var tdTempo = document.createElement("td");
+      tdTempo.innerHTML = resultado.tempo;
       tr.appendChild(tdNome);
       tr.appendChild(tdPontuacao);
+      tr.appendChild(tdTempo);
       tabela.appendChild(tr);
     });
 
@@ -87,5 +105,36 @@ function virarCartao() {
 }
 
 cartoes.forEach(function (cartao) {
+  var numero = Math.floor(Math.random() * 12);
+  cartao.style.order = numero;
+});
+
+cartoes.forEach(function (cartao) {
   cartao.addEventListener("click", virarCartao);
 });
+
+function ordenarDados() {
+  var melhorTempo = resultadosExistentes[0].tempo;
+  resultadosExistentes.forEach(function (resultado) {
+    if (resultado.tempo < melhorTempo) {
+      resultadosExistentes.push(melhorTempo);
+    }
+  });
+}
+
+function reiniciarPlacar() {
+  console.log(resultadosExistentes.length);
+  for (var i = 2; i < resultadosExistentes.length + 2; i++) {
+    var resultado = document.querySelector(`#resultados > tr:nth-child(2)`);
+    if (resultado) {
+      document.querySelector("#resultados").removeChild(resultado);
+    }
+  }
+
+  localStorage.clear();
+  alert("Placar reiniciado!");
+}
+
+function reiniciarJogo() {
+  location.reload();
+}

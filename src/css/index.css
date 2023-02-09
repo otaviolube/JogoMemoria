@@ -85,7 +85,7 @@ td{
     width: 200px;
 }
 
-#reiniciar{
+.reiniciar{
     width: 100%;
     border-radius: 5px;
     background-color: #060AB2;
@@ -94,7 +94,7 @@ td{
     height: 30px;
 }
 
-#reiniciar:hover{
+.reiniciar:hover{
     color: #060AB2;
     background-color: orange;
 }
